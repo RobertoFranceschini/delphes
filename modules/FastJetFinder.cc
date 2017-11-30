@@ -79,8 +79,8 @@ using namespace fastjet::contrib;
 //------------------------------------------------------------------------------
 
 FastJetFinder::FastJetFinder() :
-  fPlugin(0), fRecomb(0), fAxesDef(0), fMeasureDef(0), fNjettinessPlugin(0), 
-  fDefinition(0), fAreaDefinition(0), fItInputArray(0), fValenciaPlugin(0)
+  fPlugin(0), fRecomb(0), fAxesDef(0), fMeasureDef(0), fNjettinessPlugin(0), fValenciaPlugin(0),
+  fDefinition(0), fAreaDefinition(0), fItInputArray(0)
 {
 
 }
@@ -331,7 +331,8 @@ void FastJetFinder::Process()
   vector< PseudoJet > inputList, outputList, subjets;
   vector< PseudoJet >::iterator itInputList, itOutputList;
   vector< TEstimatorStruct >::iterator itEstimators;
-
+  Double_t excl_ymerge = 0.0;
+  
   DelphesFactory *factory = GetFactory();
 
   inputList.clear();
@@ -379,6 +380,8 @@ void FastJetFinder::Process()
   if(fExclusiveClustering)
     {
       outputList = sorted_by_pt(sequence->exclusive_jets( fNJets ));
+
+      excl_ymerge = sequence->exclusive_ymerge( fNJets );
     }
   else
     {
@@ -399,6 +402,8 @@ void FastJetFinder::Process()
     area.reset(0.0, 0.0, 0.0, 0.0);
     if(fAreaDefinition) area = itOutputList->area_4vector();
 
+
+    
     candidate = factory->NewCandidate();
 
     time = 0.0;
@@ -442,6 +447,11 @@ void FastJetFinder::Process()
     candidate->Charge = charge; 
     candidate->NNeutrals = nneutrals;
     candidate->NCharged = ncharged;
+
+
+    //for exclusive clustering, access y_n,n+1 as exclusive_ymerge (fNJets);
+    candidate->ExclYmerge = excl_ymerge;
+    
     
     //------------------------------------
     // Trimming

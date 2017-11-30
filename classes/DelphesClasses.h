@@ -391,10 +391,13 @@ public:
   TLorentzVector PrunedP4[5]; // first entry (i = 0) is the total Pruned Jet 4-momenta and from i = 1 to 4 are the pruned subjets 4-momenta
   TLorentzVector SoftDroppedP4[5]; // first entry (i = 0) is the total SoftDropped Jet 4-momenta and from i = 1 to 4 are the pruned subjets 4-momenta
 
+
   Int_t NSubJetsTrimmed; // number of subjets trimmed
   Int_t NSubJetsPruned; // number of subjets pruned
   Int_t NSubJetsSoftDropped; // number of subjets soft-dropped
 
+  Double_t ExclYmerge;
+  
   TRefArray Constituents; // references to constituents
   TRefArray Particles; // references to generated particles
 
@@ -632,7 +635,9 @@ public:
   Int_t NSubJetsPruned; // number of subjets pruned
   Int_t NSubJetsSoftDropped; // number of subjets soft-dropped
 
-
+  // Exclusive clustering variables
+  Double_t ExclYmerge;
+  
   static CompBase *fgCompare; //!
   const CompBase *GetCompare() const { return fgCompare; }
 

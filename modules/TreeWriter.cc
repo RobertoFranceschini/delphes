@@ -689,6 +689,9 @@ void TreeWriter::ProcessJets(ExRootTreeBranch *branch, TObjArray *array)
       entry->SoftDroppedP4[i] = candidate -> SoftDroppedP4[i];
     }
 
+    //--- exclusive clustering variables ---
+    entry->ExclYmerge = candidate->ExclYmerge;
+    
     FillParticles(candidate, &entry->Particles);
   }
 }
